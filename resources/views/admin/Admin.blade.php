@@ -402,11 +402,6 @@
             const ctx = document.getElementById('ventasChart')?.getContext('2d');
 
             if (ctx) {
-                // Crear gradiente vertical para las barras
-                const gradient = ctx.createLinearGradient(0, 0, 0, 400);
-                gradient.addColorStop(0, 'rgba(15, 26, 43, 0.9)');
-                gradient.addColorStop(1, 'rgba(217, 164, 65, 0.55)');
-
                 new Chart(ctx, {
                     type: 'bar',
                     data: {
@@ -414,64 +409,18 @@
                         datasets: [{
                             label: 'Ventas',
                             data: datosVentas,
-                            backgroundColor: gradient,
-                            borderWidth: 2,
-                            borderRadius: 8,
-                            hoverBackgroundColor: 'rgba(217, 164, 65, 0.9)',
-                            hoverBorderColor: 'rgba(15, 26, 43, 1)',
-                            barPercentage: 0.6,
-                            categoryPercentage: 0.7
+                            backgroundColor: 'rgba(79, 70, 229, 0.7)',
+                            borderRadius: 6,
                         }]
                     },
                     options: {
                         responsive: true,
                         maintainAspectRatio: false,
                         plugins: {
-                            legend: {
-                                display: true,
-                                labels: {
-                                    color: '#1C2333',
-                                    font: {
-                                        size: 14,
-                                        weight: 'bold'
-                                    }
-                                }
-                            },
-                            tooltip: {
-                                backgroundColor: 'rgba(15, 26, 43, 0.95)',
-                                titleColor: '#F7F5F0',
-                                bodyColor: '#F7F5F0',
-                                cornerRadius: 6,
-                                padding: 10
-                            }
+                            legend: { display: false }
                         },
                         scales: {
-                            x: {
-                                ticks: {
-                                    color: '#6B7280',
-                                    font: {
-                                        size: 13,
-                                        weight: 'bold'
-                                    }
-                                },
-                                grid: {
-                                    display: false
-                                }
-                            },
-                            y: {
-                                beginAtZero: true,
-                                ticks: {
-                                    color: '#6B7280',
-                                    font: {
-                                        size: 13,
-                                        weight: 'bold'
-                                    },
-                                    stepSize: 10
-                                },
-                                grid: {
-                                    color: 'rgba(232, 227, 218, 0.8)'
-                                }
-                            }
+                            y: { beginAtZero: true }
                         }
                     }
                 });
