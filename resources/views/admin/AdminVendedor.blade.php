@@ -32,29 +32,62 @@
     <div class="py-8 bg-slate-50 min-h-screen">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
 
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
-                <div class="bg-white p-6 rounded-2xl shadow-sm border border-gray-100 flex items-center">
-                    <div class="p-3 bg-blue-100 rounded-lg text-blue-600 mr-4"><i class='bx bx-box text-2xl'></i></div>
-                    <div>
-                        <p class="text-sm text-gray-500 font-medium">Total Productos</p>
-                        <p class="text-2xl font-bold text-gray-900">{{ $countP }}</p>
+            @if(auth()->user()->rol === 'vendedor')
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+                    <div class="bg-white p-6 rounded-2xl shadow-sm border border-gray-100 flex items-center">
+                        <div class="p-3 bg-emerald-100 rounded-lg text-emerald-600 mr-4"><i class='bx bx-euro text-2xl'></i></div>
+                        <div>
+                            <p class="text-sm text-gray-500 font-medium">Ingresos Totales</p>
+                            <p class="text-2xl font-bold text-gray-900">€{{ number_format($totalVentas, 2) }}</p>
+                        </div>
+                    </div>
+                    <div class="bg-white p-6 rounded-2xl shadow-sm border border-gray-100 flex items-center">
+                        <div class="p-3 bg-sky-100 rounded-lg text-sky-600 mr-4"><i class='bx bx-cart text-2xl'></i></div>
+                        <div>
+                            <p class="text-sm text-gray-500 font-medium">Pedidos</p>
+                            <p class="text-2xl font-bold text-gray-900">{{ $totalPedidosVendedor }}</p>
+                        </div>
+                    </div>
+                    <div class="bg-white p-6 rounded-2xl shadow-sm border border-gray-100 flex items-center">
+                        <div class="p-3 bg-blue-100 rounded-lg text-blue-600 mr-4"><i class='bx bx-box text-2xl'></i></div>
+                        <div>
+                            <p class="text-sm text-gray-500 font-medium">Total Productos</p>
+                            <p class="text-2xl font-bold text-gray-900">{{ $countP }}</p>
+                        </div>
                     </div>
                 </div>
-                <div class="bg-white p-6 rounded-2xl shadow-sm border border-gray-100 flex items-center">
-                    <div class="p-3 bg-green-100 rounded-lg text-green-600 mr-4"><i class='bx bx-check-shield text-2xl'></i></div>
-                    <div>
-                        <p class="text-sm text-gray-500 font-medium">Estado Sistema</p>
-                        <p class="text-2xl font-bold text-gray-900 text-green-600">Activo</p>
+
+                <div class="bg-white p-6 rounded-2xl shadow-sm border border-gray-100 mb-8">
+                    <h2 class="text-sm font-semibold text-gray-900 mb-6">Ventas por mes</h2>
+                    <div class="h-[300px]">
+                        <canvas id="ventasVendedorChart"></canvas>
                     </div>
                 </div>
-                <div class="bg-white p-6 rounded-2xl shadow-sm border border-gray-100 flex items-center">
-                    <div class="p-3 bg-orange-100 rounded-lg text-orange-600 mr-4"><i class='bx bx-Package text-2xl'></i></div>
-                    <div>
-                        <p class="text-sm text-gray-500 font-medium">Categorías</p>
-                        <p class="text-2xl font-bold text-gray-900">{{ count($categorias) }}</p>
+            @else
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+                    <div class="bg-white p-6 rounded-2xl shadow-sm border border-gray-100 flex items-center">
+                        <div class="p-3 bg-blue-100 rounded-lg text-blue-600 mr-4"><i class='bx bx-box text-2xl'></i></div>
+                        <div>
+                            <p class="text-sm text-gray-500 font-medium">Total Productos</p>
+                            <p class="text-2xl font-bold text-gray-900">{{ $productos->total() }}</p>
+                        </div>
+                    </div>
+                    <div class="bg-white p-6 rounded-2xl shadow-sm border border-gray-100 flex items-center">
+                        <div class="p-3 bg-green-100 rounded-lg text-green-600 mr-4"><i class='bx bx-check-shield text-2xl'></i></div>
+                        <div>
+                            <p class="text-sm text-gray-500 font-medium">Estado Sistema</p>
+                            <p class="text-2xl font-bold text-gray-900 text-green-600">Activo</p>
+                        </div>
+                    </div>
+                    <div class="bg-white p-6 rounded-2xl shadow-sm border border-gray-100 flex items-center">
+                        <div class="p-3 bg-orange-100 rounded-lg text-orange-600 mr-4"><i class='bx bx-Package text-2xl'></i></div>
+                        <div>
+                            <p class="text-sm text-gray-500 font-medium">Categorías</p>
+                            <p class="text-2xl font-bold text-gray-900">{{ count($categorias) }}</p>
+                        </div>
                     </div>
                 </div>
-            </div>
+            @endif
 
 
             <div class="hidden md:block bg-white rounded-2xl shadow-sm border border-gray-100 overflow-x-auto">
@@ -278,4 +311,42 @@
                 });
         }
     </script>
+
+    @if(auth()->user()->rol === 'vendedor')
+        <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+        <script>
+            const ventasVendedorPHP = @json($ventasPorMes);
+            const mesesVendedor = ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio',
+                'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'
+            ];
+            const datosVentasVendedor = mesesVendedor.map((_, i) => ventasVendedorPHP[i + 1] ?? 0);
+
+            const ctxVendedor = document.getElementById('ventasVendedorChart')?.getContext('2d');
+
+            if (ctxVendedor) {
+                new Chart(ctxVendedor, {
+                    type: 'bar',
+                    data: {
+                        labels: mesesVendedor,
+                        datasets: [{
+                            label: 'Ventas (€)',
+                            data: datosVentasVendedor,
+                            backgroundColor: 'rgba(79, 70, 229, 0.7)',
+                            borderRadius: 6,
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        plugins: {
+                            legend: { display: false }
+                        },
+                        scales: {
+                            y: { beginAtZero: true }
+                        }
+                    }
+                });
+            }
+        </script>
+    @endif
 </x-app-layout>

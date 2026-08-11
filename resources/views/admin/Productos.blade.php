@@ -16,6 +16,7 @@
                         <tr>
                             <th class="px-4 py-3 text-left rounded-tl-lg">Imagen</th>
                             <th class="px-4 py-3 text-left">Producto</th>
+                            <th class="px-4 py-3 text-left">Vendedor</th>
                             <th class="px-4 py-3 text-center">Categoría</th>
                             <th class="px-4 py-3 text-center">Precio</th>
                             <th class="px-4 py-3 text-center">Cantidad</th>
@@ -27,13 +28,14 @@
                         @foreach($productos as $producto)
                         <tr class="border-t border-gray-100 hover:bg-gray-50/50 transition-colors">
                             <td class="px-4 py-3">
-                                <img src="{{ $producto->imagen ?? 'https://via.placeholder.com/36' }}" alt="Producto"
+                                <img src="/{{ $producto->imagen }}" alt="Producto"
                                     class="w-14 h-14 object-contain rounded-md border border-gray-100 bg-white" />
                             </td>
                             <td class="px-4 py-3">
                                 <div class="font-medium text-gray-900">{{ $producto->nombre ?? 'Producto de ejemplo' }}</div>
                                 <div class="text-xs text-slate-400">{{ $producto->descripcion ?? 'Sin descripción' }}</div>
                             </td>
+                            <td class="px-4 py-3 text-slate-600">{{ $producto->vendedor->nombre_empresa ?? $producto->vendedor->nombre ?? '—' }}</td>
                             <td class="px-4 py-3 text-center text-slate-600">{{ $producto->categoria->nombre ?? 'Categoría X' }}</td>
                             <td class="px-4 py-3 text-center font-mono-num">
                                 @if(($producto->descuento ?? 0) > 0)
@@ -75,11 +77,12 @@
                 @foreach($productos as $producto)
                 <div class="bg-white border border-gray-100 rounded-lg p-4">
                     <div class="flex items-start gap-3 mb-3">
-                        <img src="{{ $producto->imagen ?? 'https://via.placeholder.com/36' }}" alt="Producto"
+                        <img src="/{{ $producto->imagen }}" alt="Producto"
                             class="w-14 h-14 object-contain rounded-md border border-gray-100 bg-white flex-shrink-0" />
                         <div class="min-w-0 flex-1">
                             <div class="font-medium text-gray-900 truncate">{{ $producto->nombre ?? 'Producto de ejemplo' }}</div>
                             <div class="text-xs text-slate-400 line-clamp-2">{{ $producto->descripcion ?? 'Sin descripción' }}</div>
+                            <div class="text-xs text-slate-500 mt-0.5">{{ $producto->vendedor->nombre_empresa ?? $producto->vendedor->nombre ?? '—' }}</div>
                         </div>
                         <div class="flex items-center gap-3 flex-shrink-0">
                             <a href="javascript:void(0)" class="btn-editar-producto text-slate-400 hover:text-indigo-600 transition-colors" data-id="{{ $producto->id }}">
