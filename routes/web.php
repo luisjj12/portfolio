@@ -12,6 +12,14 @@ Route::get('/', [ProductoController::class, 'index']);
 //RUTA DE LOS DETALLES DE LOS PRODUCTOS (pública, no requiere login)
 Route::get('/producto/detalle/{productos}' , [ProductoController::class, 'show']);
 
+//PÁGINAS DE INFORMACIÓN DEL FOOTER (públicas, no requieren login)
+Route::view('/contacto', 'paginas.contacto');
+Route::view('/preguntas-frecuentes', 'paginas.preguntas-frecuentes');
+Route::view('/politica-envios', 'paginas.politica-envios');
+Route::view('/devoluciones', 'paginas.devoluciones');
+Route::view('/terminos', 'paginas.terminos');
+Route::view('/aviso-legal', 'paginas.aviso-legal');
+
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');

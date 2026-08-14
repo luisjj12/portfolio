@@ -79,10 +79,10 @@
         <div>
             <h3 class="text-lg font-semibold mb-4">Enlaces</h3>
             <ul class="space-y-2 text-gray-400">
-                <li><a href="#" class="hover:text-white transition">Inicio</a></li>
-                <li><a href="#" class="hover:text-white transition">Tienda</a></li>
-                <li><a href="#" class="hover:text-white transition">Contacto</a></li>
-                <li><a href="#" class="hover:text-white transition">Preguntas frecuentes</a></li>
+                <li><a href="/" class="hover:text-white transition">Inicio</a></li>
+                <li><a href="/busqueda" class="hover:text-white transition">Tienda</a></li>
+                <li><a href="/contacto" class="hover:text-white transition">Contacto</a></li>
+                <li><a href="/preguntas-frecuentes" class="hover:text-white transition">Preguntas frecuentes</a></li>
             </ul>
         </div>
 
@@ -90,22 +90,19 @@
         <div>
             <h3 class="text-lg font-semibold mb-4">Ayuda</h3>
             <ul class="space-y-2 text-gray-400">
-                <li><a href="#" class="hover:text-white transition">Política de envíos</a></li>
-                <li><a href="#" class="hover:text-white transition">Devoluciones</a></li>
-                <li><a href="#" class="hover:text-white transition">Términos y condiciones</a></li>
-                <li><a href="#" class="hover:text-white transition">Aviso legal</a></li>
+                <li><a href="/politica-envios" class="hover:text-white transition">Política de envíos</a></li>
+                <li><a href="/devoluciones" class="hover:text-white transition">Devoluciones</a></li>
+                <li><a href="/terminos" class="hover:text-white transition">Términos y condiciones</a></li>
+                <li><a href="/aviso-legal" class="hover:text-white transition">Aviso legal</a></li>
             </ul>
         </div>
 
-        <!-- Redes sociales -->
+        <!-- Sobre el proyecto -->
         <div>
-            <h3 class="text-lg font-semibold mb-4">Síguenos</h3>
-            <div class="flex space-x-4">
-                <a href="#" class="hover:text-yellow-500 transition"><i class="fab fa-facebook-f"></i></a>
-                <a href="#" class="hover:text-yellow-500 transition"><i class="fab fa-instagram"></i></a>
-                <a href="#" class="hover:text-yellow-500 transition"><i class="fab fa-twitter"></i></a>
-                <a href="#" class="hover:text-yellow-500 transition"><i class="fab fa-youtube"></i></a>
-            </div>
+            <h3 class="text-lg font-semibold mb-4">Proyecto</h3>
+            <ul class="space-y-2 text-gray-400">
+                <li><a href="https://github.com/luisjj12/portfolio" target="_blank" rel="noopener" class="hover:text-white transition">Código en GitHub</a></li>
+            </ul>
         </div>
     </div>
 
