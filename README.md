@@ -6,11 +6,26 @@ Tienda online full stack desarrollada desde cero como proyecto personal, con Lar
 
 ## Índice
 
+- [Capturas](#capturas)
 - [Cuentas de prueba](#cuentas-de-prueba)
 - [Funcionalidades](#funcionalidades)
 - [Tecnologías utilizadas](#tecnologías-utilizadas)
 - [Instalación en local](#instalación-en-local)
 - [Autor](#autor)
+
+## Capturas
+
+| Inicio | Detalle de producto |
+|---|---|
+| ![Inicio](docs/screenshots/home.png) | ![Detalle de producto](docs/screenshots/producto.png) |
+
+| Pago con PayPal | Panel de administrador |
+|---|---|
+| ![Checkout con PayPal](docs/screenshots/checkout.png) | ![Panel de administrador](docs/screenshots/admin.png) |
+
+| Panel del vendedor |
+|---|
+| ![Panel del vendedor](docs/screenshots/vendedor.png) |
 
 ## Cuentas de prueba
 
