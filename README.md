@@ -6,10 +6,26 @@ Tienda online full stack desarrollada desde cero como proyecto personal, con Lar
 
 ## Índice
 
+- [Cuentas de prueba](#cuentas-de-prueba)
 - [Funcionalidades](#funcionalidades)
 - [Tecnologías utilizadas](#tecnologías-utilizadas)
 - [Instalación en local](#instalación-en-local)
 - [Autor](#autor)
+
+## Cuentas de prueba
+
+Puedes probar la demo en producción con estas cuentas:
+
+| Rol | Email | Contraseña |
+|---|---|---|
+| Cliente | `cliente@gmail.com` | `cliente123` |
+| Vendedor | `vendedor@gmail.com` | `vendedor123` |
+
+El pago se procesa con el entorno sandbox/developer de PayPal (no se cobra dinero real). Puedes usar esta cuenta de comprador de pruebas al finalizar el checkout:
+
+- Email: `sb-bekoy26268524@business.example.com`
+- Contraseña: `/S6/7qhN`
+
 
 ## Funcionalidades
 
