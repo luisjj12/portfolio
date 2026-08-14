@@ -35,6 +35,7 @@ Puedes probar la demo en producción con estas cuentas:
 |---|---|---|
 | Cliente | `cliente@gmail.com` | `cliente123` |
 | Vendedor | `vendedor@gmail.com` | `vendedor123` |
+| Administrador | `admin@gmail.com` | `admin123` |
 
 El pago se procesa con el entorno sandbox/developer de PayPal (no se cobra dinero real). Puedes usar esta cuenta de comprador de pruebas al finalizar el checkout:
 
