@@ -506,10 +506,14 @@
                 const rol = boton.dataset.rol;
                 const productos = boton.dataset.productos;
 
+                const divEscape = document.createElement('div');
+                divEscape.textContent = nombre;
+                const nombreSeguro = divEscape.innerHTML;
+
                 if (rol === 'vendedor') {
 
                     textoModal.innerHTML = `
-                <strong>${nombre}</strong> tiene
+                <strong>${nombreSeguro}</strong> tiene
                 <strong>${productos}</strong> productos registrados.<br><br>
 
                 Si continúas se eliminarán también todos sus productos.
@@ -525,7 +529,7 @@
 
                     textoModal.innerHTML = `
                 ¿Seguro que deseas eliminar al usuario
-                <strong>${nombre}</strong>?
+                <strong>${nombreSeguro}</strong>?
             `;
 
                 }

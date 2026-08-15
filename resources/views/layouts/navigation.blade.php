@@ -410,6 +410,14 @@
                         }
                     });
 
+                    // Escapa texto antes de meterlo en el HTML, para que un nombre de
+                    // producto con < > " ' no pueda ejecutar código en la página.
+                    function escaparHtml(texto) {
+                        const div = document.createElement('div');
+                        div.textContent = texto ?? '';
+                        return div.innerHTML;
+                    }
+
                     // Autocompletado del buscador (escritorio y móvil)
                     function configurarAutocompletado(inputId, dropdownId) {
                         const input = document.getElementById(inputId);
@@ -441,7 +449,7 @@
                                         dropdown.innerHTML = productos.map(p => `
                                             <a href="/producto/detalle/${p.id}" class="flex items-center gap-3 px-4 py-2.5 hover:bg-gray-50 transition-colors border-b border-gray-50 last:border-0">
                                                 <img src="${p.imagen}" class="w-9 h-9 object-contain bg-gray-50 rounded-md flex-shrink-0">
-                                                <span class="text-sm font-medium flex-1 truncate">${p.nombre}</span>
+                                                <span class="text-sm font-medium flex-1 truncate">${escaparHtml(p.nombre)}</span>
                                             </a>
                                         `).join('');
                                         dropdown.classList.remove('hidden');

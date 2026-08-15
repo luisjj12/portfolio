@@ -10,6 +10,7 @@ use App\Models\Comentarios;
 use App\Models\Items_pedido;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 
 class ProductoController extends Controller
@@ -181,42 +182,41 @@ class ProductoController extends Controller
      */
     public function pagoTerminar(Request $request)
     {
+        $productos = $request->input('id');
+        $usuario = auth()->id();
+
         try {
-            $productos = $request->input('id');
+            DB::transaction(function () use ($productos, $usuario, $request) {
+                foreach ($productos as $producto) {
+                    // lockForUpdate bloquea la fila del producto hasta que termine esta
+                    // transacción, para que dos compras a la vez no vendan más stock del que hay.
+                    $productoDb = Productos::where('id', $producto['id'])->lockForUpdate()->firstOrFail();
+                    $cantidad = (int) $producto['cantidad'];
 
-            $usuario = auth()->id();
+                    if ($cantidad > $productoDb->stock) {
+                        throw new \RuntimeException("No hay suficiente stock de \"{$productoDb->nombre}\". Disponible: {$productoDb->stock}.");
+                    }
 
-            foreach ($productos as $producto) {
-                $productoDb = Productos::findOrFail($producto['id']);
-                $cantidad = (int) $producto['cantidad'];
+                    $pedido = new Items_pedido();
+                    $pedido->pedido_id = $request->input('paypal_order_id');
+                    $pedido->producto_id = $productoDb->id;
+                    $pedido->usuario_id = $usuario;
+                    $pedido->cantidad = $cantidad;
+                    $pedido->precio = $productoDb->precio * $cantidad;
+                    $pedido->pago = 'pagado';
 
-                if ($cantidad > $productoDb->stock) {
-                    return response()->json([
-                        'error' => "No hay suficiente stock de \"{$productoDb->nombre}\". Disponible: {$productoDb->stock}.",
-                    ], 422);
+                    $pedido->save();
+
+                    $productoDb->stock = max(0, $productoDb->stock - $cantidad);
+                    $productoDb->save();
                 }
-            }
 
-            foreach ($productos as $producto) {
-                $productoDb = Productos::findOrFail($producto['id']);
-                $cantidad = (int) $producto['cantidad'];
-
-                $pedido = new Items_pedido();
-                $pedido->pedido_id = $request->input('paypal_order_id');
-                $pedido->producto_id = $productoDb->id;
-                $pedido->usuario_id = auth()->id();
-                $pedido->cantidad = $cantidad;
-                $pedido->precio = $productoDb->precio * $cantidad;
-
-                $pedido->save();
-
-                $productoDb->stock = max(0, $productoDb->stock - $cantidad);
-                $productoDb->save();
-            }
-
-            Carrito_compras::where('usuario_id', $usuario)->delete();
+                Carrito_compras::where('usuario_id', $usuario)->delete();
+            });
 
             return response()->json(['mensaje' => 'Pago recibido correctamente']);
+        } catch (\RuntimeException $e) {
+            return response()->json(['error' => $e->getMessage()], 422);
         } catch (\Exception $e) {
             Log::error('Error al guardar el pedido: ' . $e->getMessage());
             return response()->json(['error' => 'Error al guardar el pedido'], 500);
